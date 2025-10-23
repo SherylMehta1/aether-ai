@@ -4,44 +4,43 @@ import { fetchNews } from "../services/newsService";
 import NewsCard from "../components/NewsCard";
 
 export default function Dashboard() {
-  // State for weather
+  // Weather states
   const [city, setCity] = useState("Delhi");
   const [weather, setWeather] = useState(null);
-  const [loadingWeather, setLoadingWeather] = useState(false);
-  const [errorWeather, setErrorWeather] = useState(null);
+  const [error, setError] = useState(null);
 
-  // State for news
+  // News states
   const [news, setNews] = useState([]);
-  const [loadingNews, setLoadingNews] = useState(true);
+  const [topic, setTopic] = useState("general");
 
-  // Fetch weather when user clicks search
-  async function handleSearch() {
-    setLoadingWeather(true);
-    setErrorWeather(null);
+  // Weather search with proper error handling
+  const handleSearch = async () => {
     try {
       const data = await fetchWeather(city);
+
+      // Check for invalid city response from OpenWeatherMap
+      if (data.cod === "404") {
+        setError("Please enter a valid city name.");
+        setWeather(null);
+        return;
+      }
+
       setWeather(data);
+      setError(null);
     } catch (err) {
-      setErrorWeather("Could not fetch weather data.");
-    } finally {
-      setLoadingWeather(false);
+      setError("Please enter a valid city name.");
+      setWeather(null);
     }
-  }
+  };
 
-  // Fetch news on mount
+  // Fetch news when topic changes
   useEffect(() => {
-    async function loadNews() {
-      const articles = await fetchNews("in");
-      setNews(articles);
-      setLoadingNews(false);
-    }
+    const loadNews = async () => {
+      const articles = await fetchNews(topic);
+      setNews(articles || []);
+    };
     loadNews();
-  }, []);
-
-  // Auto-load weather for default city
-  useEffect(() => {
-    handleSearch();
-  }, []);
+  }, [topic]);
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800">
@@ -51,68 +50,79 @@ export default function Dashboard() {
         </h1>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {/* 🌤️ Weather Section */}
+          {/* WEATHER CARD */}
           <div className="md:col-span-1 bg-white rounded-2xl shadow p-4">
-            <h2 className="font-semibold mb-3 text-xl">Weather</h2>
+            <h2 className="font-semibold mb-2">Weather</h2>
 
-            <div className="flex mb-4">
+            {/* Search Bar */}
+            <div className="flex mb-3">
               <input
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
+                className="flex-1 border rounded-l px-3 py-2 outline-none"
                 placeholder="Enter city name"
-                className="border border-gray-300 rounded-l-lg p-2 w-full outline-none"
               />
               <button
                 onClick={handleSearch}
-                className="bg-blue-500 text-white px-4 rounded-r-lg hover:bg-blue-600 transition"
+                className="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600"
               >
                 Search
               </button>
             </div>
 
-            {loadingWeather ? (
-              <p>Loading weather...</p>
-            ) : errorWeather ? (
-              <p className="text-red-500">{errorWeather}</p>
-            ) : weather ? (
+            {/* Weather Output */}
+            {error && (
+              <p className="text-red-500 font-semibold">{error}</p>
+            )}
+
+            {weather && !error && (
               <div className="space-y-2">
-                <h3 className="text-2xl font-bold">{weather.name}</h3>
-                <p className="text-gray-700 capitalize">
-                  {weather.weather[0].description}
-                </p>
-                <p className="text-4xl font-semibold">
-                  {Math.round(weather.main.temp)}°C
-                </p>
-                <p>💧 Humidity: {weather.main.humidity}%</p>
-                <p>🌬️ Wind: {weather.wind.speed} m/s</p>
+                <p className="text-lg font-semibold">{weather.name}</p>
+                <p className="text-2xl">{Math.round(weather.main.temp)}°C</p>
+                <p className="capitalize">{weather.weather[0].description}</p>
+                <p>Humidity: {weather.main.humidity}%</p>
+                <p>Wind: {weather.wind.speed} m/s</p>
               </div>
-            ) : (
-              <p>No weather data yet.</p>
             )}
           </div>
 
-          {/* 📰 News Section */}
+          {/* NEWS CARD */}
           <div className="md:col-span-2 bg-white rounded-2xl shadow p-4">
-            <h2 className="font-semibold mb-3 text-xl">Trending News</h2>
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="font-semibold">Trending News</h2>
 
-            {loadingNews ? (
-              <p>Loading latest headlines...</p>
-            ) : news.length > 0 ? (
+              {/* Topic Filter Dropdown */}
+              <select
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                className="border rounded px-2 py-1 text-sm outline-none"
+              >
+                <option value="general">General</option>
+                <option value="technology">Technology</option>
+                <option value="sports">Sports</option>
+                <option value="health">Health</option>
+                <option value="business">Business</option>
+                <option value="science">Science</option>
+                <option value="entertainment">Entertainment</option>
+              </select>
+            </div>
+
+            {news.length > 0 ? (
               <div className="grid gap-4">
                 {news.map((article, index) => (
                   <NewsCard key={index} article={article} />
                 ))}
               </div>
             ) : (
-              <p>No news available right now.</p>
+              <p>Loading latest {topic} headlines...</p>
             )}
           </div>
 
-          {/* 🤖 AI Summary Section */}
+          {/* AI SUMMARY CARD */}
           <div className="md:col-span-3 bg-white rounded-2xl shadow p-4">
-            <h2 className="font-semibold mb-3 text-xl">AI Summary</h2>
-            <p>AI-generated summary placeholder (coming soon on Day 4 🚀)</p>
+            <h2 className="font-semibold mb-2">AI Summary</h2>
+            <p>AI-generated summary placeholder</p>
           </div>
         </div>
       </div>

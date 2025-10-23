@@ -1,24 +1,27 @@
-export async function fetchNews() {
-  const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
+// src/services/newsService.js
 
-  const url = `https://newsapi.org/v2/everything?q=India&language=en&pageSize=5&sortBy=publishedAt&apiKey=${API_KEY}`;
-  
-  console.log("📰 Fetching news from:", url);
+const API_KEY = import.meta.env.VITE_GNEWS_API_KEY; // or your NewsAPI key
 
+/**
+ * Fetch news articles based on category/topic (English only)
+ * @param {string} category - e.g., "general", "technology", "sports"
+ * @returns {Array} Array of news articles
+ */
+export async function fetchNews(category = "general") {
   try {
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log("✅ News API response:", data);
-    
-    if (data.status === "ok" && data.articles.length > 0) {
-      return data.articles;
-    } else {
-      console.warn("⚠️ No articles found in response:", data);
+    const url = `https://gnews.io/api/v4/top-headlines?country=in&category=${category}&lang=en&max=5&apikey=${API_KEY}`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!data.articles || data.articles.length === 0) {
+      console.warn(`⚠️ No articles found for category: ${category}`, data);
       return [];
     }
+
+    return data.articles;
   } catch (error) {
-    console.error("❌ Error fetching news:", error);
+    console.error("Error fetching news:", error);
     return [];
   }
 }
-
