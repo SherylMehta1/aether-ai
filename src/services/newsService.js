@@ -9,7 +9,7 @@ const API_KEY = import.meta.env.VITE_GNEWS_API_KEY; // or your NewsAPI key
  */
 export async function fetchNews(category = "general") {
   try {
-    const url = `https://gnews.io/api/v4/top-headlines?country=in&category=${category}&lang=en&max=5&apikey=${API_KEY}`;
+    const url = `https://gnews.io/api/v4/top-headlines?country=in&category=${category}&lang=en&max=3&apikey=${API_KEY}`;
 
     const res = await fetch(url);
     const data = await res.json();

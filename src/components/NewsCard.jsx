@@ -1,7 +1,9 @@
 // src/components/NewsCard.jsx
 export default function NewsCard({ article }) {
   return (
-    <div className="bg-gray-50 rounded-lg shadow p-4 flex flex-col md:flex-row gap-4">
+    <div className="bg-slate-900 text-slate-200 border border-white/50 rounded-lg shadow p-4
+            transition-all duration-300
+            hover:shadow-xl hover:scale-[1.01] flex flex-col md:flex-row gap-4">
       {/* Article Image */}
       {article.image ? (
         <img
@@ -20,12 +22,12 @@ export default function NewsCard({ article }) {
         <div>
           <h3 className="font-semibold text-lg">{article.title}</h3>
           {article.description && (
-            <p className="text-sm text-gray-700 mt-1 line-clamp-3">
+            <p className="text-sm text-slate-300 mt-1 line-clamp-3">
               {article.description}
             </p>
           )}
         </div>
-        <div className="mt-2 flex justify-between items-center text-sm text-gray-500">
+        <div className="mt-2 flex justify-between items-center text-sm text-slate-400">
           <span>{article.source?.name || "Unknown Source"}</span>
           <a
             href={article.url}
