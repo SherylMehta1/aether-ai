@@ -65,7 +65,7 @@ export default function Dashboard() {
   }, [topic]);
 
   return (
-    <div className="min-h-screen bg-slate-900 text-gray-700">
+    <div className="min-h-screen bg-black text-gray-700">
       <Navbar />
 
       <div className="max-w-6xl mx-auto p-6">
@@ -73,7 +73,7 @@ export default function Dashboard() {
 
         <div className="grid md:grid-cols-3 gap-6">
           {/* WEATHER CARD */}
-          <div className="md:col-span-1 bg-white dark:bg-gray-800 rounded-2xl shadow p-4
+          <div className="md:col-span-1 bg-white dark:bg-black rounded-2xl shadow p-4
           border border-white/50
             transition transform duration-300
             hover:-translate-y-1 hover:shadow-lg">
@@ -85,12 +85,12 @@ export default function Dashboard() {
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="flex-1 border rounded-l px-3 py-2 outline-none bg-slate-800 text-slate-100"
+                className="flex-1 border rounded-l px-3 py-2 outline-none bg-neutral-900 text-slate-100"
                 placeholder="Enter city name"
               />
               <button
                 onClick={handleSearch}
-                className="bg-slate-800 text-white px-4 py-2 rounded-r
+                className="bg-neutral-900 text-white px-4 py-2 rounded-r
                  border-t border-r border-b transition-all duration-200
                  hover:bg-slate-700 active:scale-95"
               >
@@ -114,7 +114,7 @@ export default function Dashboard() {
           </div>
 
           {/* NEWS CARD */}
-          <div className="md:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow p-4
+          <div className="md:col-span-2 bg-white dark:bg-black rounded-2xl shadow p-4
             transition transform duration-300
             border border-white/50
             hover:-translate-y-1 hover:shadow-lg">
@@ -125,7 +125,7 @@ export default function Dashboard() {
               <select
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                className="border bg-slate-800 text-slate-100 rounded px-2 py-1 text-sm outline-none"
+                className="border bg-neutral-900 text-slate-100 rounded px-2 py-1 text-sm outline-none"
               >
                 <option value="general">General</option>
                 <option value="technology">Technology</option>
@@ -151,7 +151,7 @@ export default function Dashboard() {
           </div>
 
           {/* AI SUMMARY CARD */}
-          <div className="md:col-span-3 bg-white dark:bg-gray-800 rounded-2xl shadow p-4
+          <div className="md:col-span-3 bg-white dark:bg-black rounded-2xl shadow p-4
           border border-white/50
             transition transform duration-300
             hover:-translate-y-1 hover:shadow-lg">

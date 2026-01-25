@@ -2,7 +2,7 @@ export default function Navbar() {
   return (
     <div className="w-full px-4 pt-4">
       <nav
-        className="bg-gray-800 text-gray-100
+        className="bg-black text-gray-100
                    rounded-2xl
                    px-6 py-4
                    shadow-md

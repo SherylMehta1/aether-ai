@@ -1,7 +1,7 @@
 // src/components/NewsCard.jsx
 export default function NewsCard({ article }) {
   return (
-    <div className="bg-slate-900 text-slate-200 border border-white/50 rounded-lg shadow p-4
+    <div className="bg-neutral-900 text-slate-200 border border-white/50 rounded-lg shadow p-4
             transition-all duration-300
             hover:shadow-xl hover:scale-[1.01] flex flex-col md:flex-row gap-4">
       {/* Article Image */}
