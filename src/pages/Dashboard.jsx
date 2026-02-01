@@ -80,12 +80,12 @@ export default function Dashboard() {
             <h2 className="font-semibold mb-2 text-white"><span className="text-1xl">🌤️</span>Weather</h2>
 
             {/* Search Bar */}
-            <div className="flex mb-3">
+            <div className="flex mb-3 min-w-0">
               <input
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="flex-1 border rounded-l px-3 py-2 outline-none bg-neutral-900 text-slate-100"
+                className="flex-1 min-w-0 border rounded-l px-3 py-2 outline-none bg-neutral-900 text-slate-100"
                 placeholder="Enter city name"
               />
               <button
