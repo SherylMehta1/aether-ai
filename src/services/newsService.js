@@ -1,21 +1,17 @@
 // src/services/newsService.js
 
-const API_KEY = import.meta.env.VITE_GNEWS_API_KEY; // or your NewsAPI key
-
 /**
- * Fetch news articles based on category/topic (English only)
+ * Fetch news articles via Vercel API route (avoids CORS)
  * @param {string} category - e.g., "general", "technology", "sports"
  * @returns {Array} Array of news articles
  */
 export async function fetchNews(category = "general") {
   try {
-    const url = `https://gnews.io/api/v4/top-headlines?country=in&category=${category}&lang=en&max=3&apikey=${API_KEY}`;
-
-    const res = await fetch(url);
+    const res = await fetch(`/api/news?category=${category}`);
     const data = await res.json();
 
     if (!data.articles || data.articles.length === 0) {
-      console.warn(`⚠️ No articles found for category: ${category}`, data);
+      console.warn(`⚠️ No articles returned for category: ${category}`, data);
       return [];
     }
 
